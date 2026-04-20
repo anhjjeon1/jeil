@@ -455,7 +455,7 @@ async function runAI(){
         let parts=[{text:prompt}];
         for(let i=1;i<=4;i++){const file=document.getElementById('f'+i).files?.[0];if(file){const b64=await new Promise(r=>{const rd=new FileReader();rd.onload=e=>r(e.target.result.split(',')[1]);rd.readAsDataURL(file);});parts.push({inline_data:{mime_type:file.type||'image/jpeg',data:b64}});}}
 
-        const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${KEY}`,{
+        const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${KEY}`,{
             method:'POST',headers:{'Content-Type':'application/json'},
             body:JSON.stringify({contents:[{parts}],generationConfig:{temperature:0.3,maxOutputTokens:5000}})
         });
