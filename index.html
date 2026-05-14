@@ -7,12 +7,10 @@
 <meta name="theme-color" content="#0B1220" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>청개구리 입주자 사전점검 AI앱 FROGCHECK v33.11-frogcheck</title>
+<title>청개구리 입주자 사전점검 AI앱 FROGCHECK v33.12-frogcheck</title>
 <script>
-/* FOUC 방지: 페인트 직전 테마 결정 — localStorage('theme') 우선, 없으면 prefers-color-scheme */
+/* FOUC 방지: 시스템 다크모드 자동 감지 (수동 토글 제거됨 — 시스템 설정 따라감) */
 (function(){try{
-  var t=localStorage.getItem('fc_theme');
-  if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);return;}
   if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}
 }catch(e){}})();
 </script>
@@ -1820,32 +1818,6 @@ input[type="file"]{
 html,body{background:var(--page-bg);transition:background-color .3s var(--ease-out),color .3s var(--ease-out)}
 .app{background:var(--page-bg)}
 
-/* ── 헤더 FROGCHECK 배지 ── */
-.hd-badge-pill{
-  display:inline-block;background:linear-gradient(135deg,#10B981,#059669);
-  color:#fff;font-size:.55rem;padding:2px 7px;border-radius:999px;
-  vertical-align:middle;font-weight:800;letter-spacing:.04em;margin-left:4px;
-  box-shadow:0 2px 8px rgba(16,185,129,.35);
-}
-
-/* ── 다크모드 토글 버튼 (헤더 좌측 절대 배치) ── */
-.theme-toggle{
-  position:absolute;left:14px;top:50%;transform:translateY(-50%);
-  width:34px;height:34px;border-radius:50%;
-  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  color:#fff;font-size:.86rem;cursor:pointer;
-  display:inline-flex;align-items:center;justify-content:center;
-  transition:transform .25s var(--ease-spring),background .2s ease;
-  z-index:3;
-}
-.theme-toggle:hover{background:rgba(255,255,255,.22)}
-.theme-toggle:active{transform:translateY(-50%) scale(.9)}
-.theme-toggle .t-sun{display:none}
-.theme-toggle .t-moon{display:inline-block}
-:root[data-theme="dark"] .theme-toggle .t-moon{display:none}
-:root[data-theme="dark"] .theme-toggle .t-sun{display:inline-block;color:#FBBF24}
-
 /* 다크모드 헤더 그라데이션 톤 다운 */
 :root[data-theme="dark"] .hd{
   background:linear-gradient(135deg,#0B1E33 0%,#0C2A4E 35%,#1E40AF 70%,#0B1E33 100%);
@@ -2008,10 +1980,6 @@ button:not(:disabled):active{transition:transform .08s ease}
 <header class="hd">
   <div class="hd-top" style="justify-content:center;align-items:center;padding:12px 14px 10px">
     <div class="hd-title" style="font-size:1.26rem">청개구리 AI점검</div>
-    <button type="button" class="theme-toggle" id="themeToggle" onclick="A.toggleTheme()" aria-label="다크 모드 전환" title="다크 모드 전환">
-      <i class="fa-solid fa-moon t-moon"></i>
-      <i class="fa-solid fa-sun t-sun"></i>
-    </button>
     <span class="tag tag-v" id="verTag" data-ver onclick="A.devTap()" style="position:absolute;right:14px">v25.0</span>
     <span id="passTag" style="display:none">기부형 앱</span>
   </div>
@@ -2444,7 +2412,7 @@ button:not(:disabled):active{transition:transform .08s ease}
 /* ============================================================
    ★ 설정값
    ============================================================ */
-const APP_VER = 'v33.11-frogcheck';
+const APP_VER = 'v33.12-frogcheck';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbxXiy2tR6pRHpnqsR1TY6a0gFQiVuZMYvtzFJGOQubJ-ENCA9u8t4tvtUEB_-NNbVDd9Q/exec';
 const SPARE_URL = 'https://anhjjeon1.github.io/inspect-spare/';
 const LIMIT_FREE = 2;
@@ -3292,18 +3260,6 @@ A.setMode=m=>{if(m==='admin'){$('moPwd').classList.add('show');$('pwdInput').val
 A.checkPwd=async()=>{const pw=$('pwdInput').value;if(!pw){$('pwdErr').style.display='block';return;}$('pwdInput').disabled=true;try{const res=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'admin_auth',pwd:pw,fp:FP})});const data=await res.json();if(data.success){sessionStorage.setItem('admin_token',data.token);mode='admin';$('moPwd').classList.remove('show');stat('🔐 관리자 모드 활성화 (24시간)');updateQuotaUI();updatePassUI();}else{$('pwdErr').style.display='block';$('pwdInput').value='';$('pwdInput').focus();}}catch(e){alert('서버 연결 실패. 잠시 후 다시 시도해주세요.');console.error(e);}$('pwdInput').disabled=false;};
 A.cancelPwd=()=>{$('moPwd').classList.remove('show');};
 A.devTap=(()=>{let tc=0,tt=null;return()=>{tc++;clearTimeout(tt);if(tc>=3){tc=0;A.setMode('admin');}else{tt=setTimeout(()=>{tc=0;},800);}};})();
-/* Phase 2: 다크 모드 토글 — localStorage('fc_theme') = 'light' | 'dark' | null(시스템 따라가기) */
-A.toggleTheme=()=>{
-  try{
-    const root=document.documentElement;
-    const cur=root.getAttribute('data-theme');
-    const next=cur==='dark'?'light':'dark';
-    root.setAttribute('data-theme',next);
-    localStorage.setItem('fc_theme',next);
-    /* 햅틱 (지원되는 폰만) */
-    if(navigator.vibrate)navigator.vibrate(10);
-  }catch(e){console.warn('theme toggle failed',e);}
-};
 
 /* ============================================================
    🔊 음성안내 (v22.1)
