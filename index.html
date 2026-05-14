@@ -3,11 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#5B21B6">
+<meta name="theme-color" content="#5B21B6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1220" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>청개구리 입주자 사전점검 AI앱 FROGCHECK v33.9-frogcheck</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+<title>청개구리 입주자 사전점검 AI앱 FROGCHECK v33.10-frogcheck</title>
+<script>
+/* FOUC 방지: 페인트 직전 테마 결정 — localStorage('theme') 우선, 없으면 prefers-color-scheme */
+(function(){try{
+  var t=localStorage.getItem('fc_theme');
+  if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);return;}
+  if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}
+}catch(e){}})();
+</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 /* ============================================================
@@ -66,9 +76,11 @@
    - [UI] 하단 버튼 영역 정리, 푸터 간소화
    ============================================================ */
 :root{
-  /* v31.6-spare: 브랜드 컬러 보라 계열로 전환 (메인앱 녹색과 명확히 차별화) */
-  --p:#5B21B6;--pl:#8B5CF6;--pg:rgba(139,92,246,.12);
-  --ac:#FF6B35;--bg:#F4F6F9;--card:#FFF;
+  /* v33.10-frogcheck Phase 2: soft neutral + 보라 액센트 유지 + 라이트/다크 양쪽 토큰화 */
+  --p:#5B21B6;--pl:#8B5CF6;--pg:rgba(139,92,246,.14);
+  --ac:#FF6B35;
+  --bg:#F4F6F9;--card:#FFFFFF;
+  --page-bg:#F7F8FC;
   --tx:#1A2332;--ts:#5A6B7F;--th:#94A3B8;
   --bd:#E8ECF1;--bl:#F1F4F8;
   --dn:#E74C3C;--dnb:#FFF5F5;--wr:#F39C12;--wrb:#FFFBE6;
@@ -77,6 +89,36 @@
   --gold:#F59E0B;--goldb:#FFFBEB;
   --r:14px;--tr:all .2s ease;
   --safe-bottom:env(safe-area-inset-bottom, 0px);
+  /* Phase 2 신규 토큰 — bento·glass·motion */
+  --surface:rgba(255,255,255,.72);
+  --surface-solid:#FFFFFF;
+  --shadow-sm:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.06);
+  --shadow-md:0 4px 12px rgba(16,24,40,.06),0 2px 4px rgba(16,24,40,.04);
+  --shadow-lg:0 12px 32px rgba(16,24,40,.08),0 4px 12px rgba(16,24,40,.06);
+  --ring:0 0 0 3px var(--pg);
+  --glass-blur:saturate(140%) blur(14px);
+  --bento-r:18px;
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --p:#A78BFA;--pl:#C4B5FD;--pg:rgba(167,139,250,.22);
+  --ac:#FF8A5C;
+  --bg:#1E293B;--card:#1B2436;
+  --page-bg:#0B1220;
+  --tx:#F1F5F9;--ts:#CBD5E1;--th:#94A3B8;
+  --bd:#2A3654;--bl:#1A2336;
+  --dn:#F87171;--dnb:#3B1F26;--wr:#FBBF24;--wrb:#2E2515;
+  --pu:#C4B5FD;--pub:#2D2353;
+  --nv:#34D399;--nvb:#0F2B22;
+  --gold:#FBBF24;--goldb:#2A2010;
+  --surface:rgba(27,36,54,.62);
+  --surface-solid:#1B2436;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.45),0 1px 3px rgba(0,0,0,.35);
+  --shadow-md:0 4px 14px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.35);
+  --shadow-lg:0 16px 40px rgba(0,0,0,.55),0 6px 14px rgba(0,0,0,.4);
+  color-scheme:dark;
 }
 *{
   margin:0;
@@ -86,15 +128,15 @@
 }
 html{scroll-behavior:smooth}
 body{
-  font-family:'Noto Sans KR',sans-serif;
-  background:#FAFBFC;color:var(--tx);
+  font-family:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,system-ui,Roboto,'Helvetica Neue','Segoe UI','Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+  background:var(--page-bg);color:var(--tx);
   line-height:1.6;-webkit-font-smoothing:antialiased;
   display:flex;justify-content:center;
   overscroll-behavior:none;
 }
 .app{
   width:100%;max-width:480px;
-  background:#FAFBFC;position:relative;
+  background:var(--page-bg);position:relative;
   padding:0 0 calc(12px + var(--safe-bottom));
   overflow-x:hidden;
   box-sizing:border-box;
@@ -124,9 +166,9 @@ body{
   bottom:-2px;
   left:0;
   right:0;
-  height:10px;
-  background:#FAFBFC;
-  border-radius:10px 10px 0 0;
+  height:14px;
+  background:var(--page-bg);
+  border-radius:14px 14px 0 0;
 }
 .hd-top{
   display:flex;align-items:center;justify-content:space-between;
@@ -164,7 +206,7 @@ body{
 }
 .hd-title{
   color:#fff;
-  font-family:'Outfit',sans-serif;
+  font-family:inherit;
   font-size:1.08rem;
   font-weight:700;
   letter-spacing:-.02em;
@@ -261,7 +303,7 @@ body{
 .pass-count{
   font-size:.7rem;
   font-weight:900;
-  font-family:'Outfit';
+  font-family:inherit;font-feature-settings:"tnum" 1,"cv11" 1;
   color:var(--th);
 }
 .pass-count.ok{color:var(--p)}
@@ -383,7 +425,7 @@ body{
 .quota-pill i{font-size:.62rem}
 .quota-pill .q-num{
   font-weight:900;
-  font-family:'Outfit';
+  font-family:inherit;font-feature-settings:"tnum" 1,"cv11" 1;
   margin-left:auto;
 }
 .quota-pill .q-num.low{color:var(--wr)}
@@ -956,7 +998,7 @@ textarea.if{
   justify-content:center;
   font-size:.72rem;
   font-weight:900;
-  font-family:'Outfit';
+  font-family:inherit;font-feature-settings:"tnum" 1,"cv11" 1;
 }
 .lh-t{font-size:.82rem;font-weight:800}
 .lh-s{
@@ -1321,7 +1363,7 @@ textarea.if{
   font-size:1.8rem;
   font-weight:900;
   color:#059669;
-  font-family:'Outfit';
+  font-family:inherit;font-feature-settings:"tnum" 1,"cv11" 1;
 }
 .price-box .price-sub{
   font-size:.75rem;
@@ -1359,7 +1401,7 @@ textarea.if{
   border-radius:12px;
   background:#FAFBFC;
   color:var(--tx);
-  font-family:'Outfit';
+  font-family:inherit;font-feature-settings:"tnum" 1,"cv11" 1;
   outline:none;
   text-transform:uppercase;
   transition:var(--tr);
@@ -1767,13 +1809,193 @@ input[type="file"]{
   opacity:0;
   overflow:hidden;
 }
+
+/* ============================================================
+   Phase 2 Redesign Override (v33.10-frogcheck)
+   - Bento card / glassmorphism / dark mode / micro-interactions
+   - 기존 CSS는 보존, 마지막에 덧씌워 영향 최소화
+   ============================================================ */
+
+/* 페이지 베이스 + 다크모드 강제 적용 영역 */
+html,body{background:var(--page-bg);transition:background-color .3s var(--ease-out),color .3s var(--ease-out)}
+.app{background:var(--page-bg)}
+
+/* ── 헤더 FROGCHECK 배지 ── */
+.hd-badge-pill{
+  display:inline-block;background:linear-gradient(135deg,#10B981,#059669);
+  color:#fff;font-size:.55rem;padding:2px 7px;border-radius:999px;
+  vertical-align:middle;font-weight:800;letter-spacing:.04em;margin-left:4px;
+  box-shadow:0 2px 8px rgba(16,185,129,.35);
+}
+
+/* ── 다크모드 토글 버튼 (헤더 좌측 절대 배치) ── */
+.theme-toggle{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  color:#fff;font-size:.86rem;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:transform .25s var(--ease-spring),background .2s ease;
+  z-index:3;
+}
+.theme-toggle:hover{background:rgba(255,255,255,.22)}
+.theme-toggle:active{transform:translateY(-50%) scale(.9)}
+.theme-toggle .t-sun{display:none}
+.theme-toggle .t-moon{display:inline-block}
+:root[data-theme="dark"] .theme-toggle .t-moon{display:none}
+:root[data-theme="dark"] .theme-toggle .t-sun{display:inline-block;color:#FBBF24}
+
+/* 다크모드 헤더 그라데이션 톤 다운 */
+:root[data-theme="dark"] .hd{
+  background:linear-gradient(135deg,#1E1B4B 0%,#3B0764 35%,#4C1D95 70%,#1E1B4B 100%);
+}
+
+/* ── Bento 카드 강화 (.sec) ── */
+.sec{
+  background:var(--card);
+  border:1px solid var(--bd);
+  border-radius:var(--bento-r);
+  padding:14px 14px;
+  margin:0 8px 10px;
+  box-shadow:var(--shadow-md);
+  position:relative;
+  overflow:visible;
+  transition:transform .25s var(--ease-out),box-shadow .25s var(--ease-out),border-color .2s ease,background-color .3s ease;
+  animation:bentoIn .5s var(--ease-out) both;
+}
+.sec:hover{box-shadow:var(--shadow-lg);transform:translateY(-1px)}
+.sec:focus-within{border-color:var(--pl);box-shadow:var(--shadow-lg),var(--ring)}
+.sec:nth-of-type(1){animation-delay:.04s}
+.sec:nth-of-type(2){animation-delay:.10s}
+.sec:nth-of-type(3){animation-delay:.16s}
+.sec:nth-of-type(4){animation-delay:.22s}
+@keyframes bentoIn{
+  from{opacity:0;transform:translateY(8px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.sec-t{font-size:.86rem;color:var(--tx)}
+.sec-t .n{
+  width:22px;height:22px;border-radius:8px;font-size:.66rem;
+  background:linear-gradient(135deg,var(--p),var(--pl));
+  box-shadow:0 4px 12px rgba(91,33,182,.28);
+}
+
+/* 리스트 카드 영역도 같은 톤으로 */
+.ls{margin:6px 8px 0}
+.lh{
+  background:var(--card);border:1px solid var(--bd);
+  border-radius:var(--bento-r);box-shadow:var(--shadow-md);
+}
+
+/* ── 입력 필드 (.if) ── */
+.if{
+  background:var(--bl);border-color:var(--bd);color:var(--tx);
+  border-radius:12px;
+}
+.if:focus{background:var(--card);border-color:var(--pl);box-shadow:var(--ring)}
+.if::placeholder{color:var(--th)}
+textarea.if{background:var(--bl)}
+
+/* 다크모드 — 일부 인라인 흰 배경 강제 override (안전한 범위) */
+:root[data-theme="dark"] .mic-btn{background:var(--card)!important;border-color:var(--bd);color:var(--tx)}
+:root[data-theme="dark"] .pass-status{background:var(--bl)}
+:root[data-theme="dark"] .pass-status.paid{background:rgba(3,199,90,.10)}
+:root[data-theme="dark"] .pass-status.pro{background:rgba(167,139,250,.14)}
+:root[data-theme="dark"] .st-chip{background:var(--card);border-color:var(--bd)}
+:root[data-theme="dark"] .quota-pill{background:var(--card);border-color:var(--bd)}
+:root[data-theme="dark"] .ai-tag.work{background:rgba(167,139,250,.15);color:var(--pl)}
+:root[data-theme="dark"] .ai-tag.sub{background:rgba(196,181,253,.15);color:var(--pl)}
+:root[data-theme="dark"] .ai-tag.type{background:rgba(248,113,113,.15);color:var(--dn)}
+:root[data-theme="dark"] noscript > div{background:var(--card)!important;color:var(--tx)}
+
+/* 다크모드에서 #FAFBFC / #fff 등 하드코딩된 배경 셀렉터 패치 */
+:root[data-theme="dark"] #fUser,
+:root[data-theme="dark"] #fUser:focus{background:var(--bl);color:var(--tx)}
+:root[data-theme="dark"] #fUser.has-value{
+  background:linear-gradient(135deg,rgba(59,130,246,.18),var(--card));
+  border-color:#60A5FA;
+}
+
+/* ── Glassmorphism — pass-bar 영역 ── */
+.pass-bar.unified-bar{
+  background:var(--surface);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border:1px solid var(--bd);
+  border-radius:999px;
+  margin:6px 8px;
+  box-shadow:var(--shadow-sm);
+}
+
+/* ── Micro-interactions: 버튼 강화 ── */
+.btn-buy,.btn-voice,.ai-b,.btn-sv,.upgrade-card-btn{
+  transition:transform .18s var(--ease-spring),box-shadow .2s ease,background .2s ease,filter .2s ease;
+  will-change:transform;
+}
+.btn-buy:hover,.btn-voice:hover,.ai-b:hover,.upgrade-card-btn:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.btn-buy:active,.btn-voice:active,.ai-b:active,.upgrade-card-btn:active{transform:translateY(0) scale(.97)}
+
+.cd-btn,.btn-code{transition:transform .15s var(--ease-out),border-color .2s ease,background .2s ease}
+.cd-btn:active,.btn-code:active{transform:scale(.98)}
+
+/* 탭 햅틱 느낌 — ripple 대체 subtle pulse */
+button:not(:disabled):active{transition:transform .08s ease}
+
+/* ── Skeleton loader (AI 분석 대기용) ── */
+.skeleton{
+  position:relative;overflow:hidden;background:var(--bl);border-radius:10px;
+}
+.skeleton::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.55) 50%,transparent 100%);
+  animation:skeletonShimmer 1.4s linear infinite;
+}
+:root[data-theme="dark"] .skeleton::after{
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.08) 50%,transparent 100%);
+}
+@keyframes skeletonShimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+
+/* AI 버튼 분석 중 표시 (선택적: JS가 .loading 추가 시) */
+.ai-b.loading{position:relative;color:transparent}
+.ai-b.loading::after{
+  content:'';position:absolute;left:50%;top:50%;width:18px;height:18px;
+  margin:-9px 0 0 -9px;border:2.5px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;animation:spinDot .8s linear infinite;
+}
+@keyframes spinDot{to{transform:rotate(360deg)}}
+
+/* ── 사진 카드 (.pc) hover lift ── */
+.pc{transition:transform .25s var(--ease-out),box-shadow .25s var(--ease-out),border-color .2s ease}
+.pc:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.pc:active{transform:translateY(0) scale(.99)}
+
+/* ── 접근성: reduced motion ── */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important;scroll-behavior:auto!important}
+  .sec{animation:none!important}
+}
+
+/* ── 다크모드 PDF 미리보기 안전장치 (PDF는 항상 라이트) ── */
+.pdf-preview,.pdf-preview *{color-scheme:light!important}
+
+/* ── 모달 다크 호환 ── */
+:root[data-theme="dark"] .mo-b{background:var(--card);box-shadow:0 -8px 40px rgba(0,0,0,.5)}
+:root[data-theme="dark"] .mo-h{color:var(--pl)}
+:root[data-theme="dark"] .mo-cls{color:var(--ts)}
+:root[data-theme="dark"] .mo p,
+:root[data-theme="dark"] .mo > .mo-b > p{color:var(--ts)}
+:root[data-theme="dark"] .mo b{color:var(--tx)}
+/* 모달 안 정보박스(inline 색상 hardcoded)는 그대로 — 컬러 박스 위 다크 텍스트는 자연 대비 */
+
 </style>
 </head>
 <body>
 <!-- v31.5-spare: JS 미지원/파싱 실패 시 메인앱 복귀 링크 -->
 <noscript>
-  <div style="padding:32px 20px;text-align:center;font-family:-apple-system,'Noto Sans KR',sans-serif;max-width:500px;margin:40px auto;background:#fff;border:2px solid #5B21B6;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.1)">
-    <h1 style="color:#5B21B6;margin:0 0 12px">🐸 청개구리 사전점검 <span style="background:#E74C3C;color:#fff;font-size:12px;padding:2px 8px;border-radius:4px;vertical-align:middle">SPARE</span></h1>
+  <div style="padding:32px 20px;text-align:center;font-family:-apple-system,'Pretendard Variable','Pretendard','Noto Sans KR',sans-serif;max-width:500px;margin:40px auto;background:#fff;border:2px solid #5B21B6;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.1)">
+    <h1 style="color:#5B21B6;margin:0 0 12px">🐸 청개구리 사전점검 <span style="background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-size:12px;padding:2px 8px;border-radius:999px;vertical-align:middle">FROGCHECK</span></h1>
     <p style="color:#5A6B7F;margin:0 0 20px;line-height:1.6">이 앱은 JavaScript가 필요합니다.<br>브라우저 설정에서 활성화하거나<br>아래 <b>메인 앱</b>을 이용해주세요.</p>
     <a href="https://frogsash.co.kr/inspect/" style="display:inline-block;padding:14px 32px;background:#1B6B28;color:#fff;text-decoration:none;border-radius:10px;font-weight:700;font-size:15px">✅ 메인 앱으로 이동</a>
     <p style="color:#94A3B8;margin:20px 0 0;font-size:13px">📞 문의: 010-2322-0949</p>
@@ -1785,7 +2007,11 @@ input[type="file"]{
 <!-- ── HEADER ── -->
 <header class="hd">
   <div class="hd-top" style="justify-content:center;align-items:center;padding:12px 14px 10px">
-    <div class="hd-title" style="font-size:1.26rem">청개구리 AI점검 <span style="background:#E74C3C;color:#fff;font-size:.55rem;padding:1px 5px;border-radius:4px;vertical-align:middle">SPARE</span></div>
+    <div class="hd-title" style="font-size:1.26rem">🐸 청개구리 AI점검 <span class="hd-badge-pill">FROGCHECK</span></div>
+    <button type="button" class="theme-toggle" id="themeToggle" onclick="A.toggleTheme()" aria-label="다크 모드 전환" title="다크 모드 전환">
+      <i class="fa-solid fa-moon t-moon"></i>
+      <i class="fa-solid fa-sun t-sun"></i>
+    </button>
     <span class="tag tag-v" id="verTag" data-ver onclick="A.devTap()" style="position:absolute;right:14px">v25.0</span>
     <span id="passTag" style="display:none">기부형 앱</span>
   </div>
@@ -2218,7 +2444,7 @@ input[type="file"]{
 /* ============================================================
    ★ 설정값
    ============================================================ */
-const APP_VER = 'v33.9-frogcheck';
+const APP_VER = 'v33.10-frogcheck';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbxXiy2tR6pRHpnqsR1TY6a0gFQiVuZMYvtzFJGOQubJ-ENCA9u8t4tvtUEB_-NNbVDd9Q/exec';
 const SPARE_URL = 'https://anhjjeon1.github.io/inspect-spare/';
 const LIMIT_FREE = 2;
@@ -2950,8 +3176,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   initWorkSelect();loadList();loadDraft();initDraftListeners();
   step(1);updateQuotaUI();updatePassUI();
   /* 버전 자동 반영 */
-  document.querySelectorAll('[data-ver]').forEach(el=>{el.textContent=el.textContent.replace(/v[\d.]+/,APP_VER);});
-  document.title=document.title.replace(/v[\d.]+(-spare)?/,APP_VER);
+  document.querySelectorAll('[data-ver]').forEach(el=>{el.textContent=el.textContent.replace(/v[\d.]+(-spare|-frogcheck)?/,APP_VER);});
+  document.title=document.title.replace(/v[\d.]+(-spare|-frogcheck)?/,APP_VER);
   /* 서버 헬스체크 (30초 후 비간섭적 실행) */
   setTimeout(spareFailover,30000);
 
@@ -3064,6 +3290,18 @@ A.setMode=m=>{if(m==='admin'){$('moPwd').classList.add('show');$('pwdInput').val
 A.checkPwd=async()=>{const pw=$('pwdInput').value;if(!pw){$('pwdErr').style.display='block';return;}$('pwdInput').disabled=true;try{const res=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'admin_auth',pwd:pw,fp:FP})});const data=await res.json();if(data.success){sessionStorage.setItem('admin_token',data.token);mode='admin';$('moPwd').classList.remove('show');stat('🔐 관리자 모드 활성화 (24시간)');updateQuotaUI();updatePassUI();}else{$('pwdErr').style.display='block';$('pwdInput').value='';$('pwdInput').focus();}}catch(e){alert('서버 연결 실패. 잠시 후 다시 시도해주세요.');console.error(e);}$('pwdInput').disabled=false;};
 A.cancelPwd=()=>{$('moPwd').classList.remove('show');};
 A.devTap=(()=>{let tc=0,tt=null;return()=>{tc++;clearTimeout(tt);if(tc>=3){tc=0;A.setMode('admin');}else{tt=setTimeout(()=>{tc=0;},800);}};})();
+/* Phase 2: 다크 모드 토글 — localStorage('fc_theme') = 'light' | 'dark' | null(시스템 따라가기) */
+A.toggleTheme=()=>{
+  try{
+    const root=document.documentElement;
+    const cur=root.getAttribute('data-theme');
+    const next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    localStorage.setItem('fc_theme',next);
+    /* 햅틱 (지원되는 폰만) */
+    if(navigator.vibrate)navigator.vibrate(10);
+  }catch(e){console.warn('theme toggle failed',e);}
+};
 
 /* ============================================================
    🔊 음성안내 (v22.1)
@@ -3542,7 +3780,7 @@ img{max-width:100%;display:block}
 @media print{@page{size:A4;margin:8mm}body{padding:0}.pdf-item{break-inside:avoid;page-break-inside:avoid}}</style></head>
 <body>
 <div style="text-align:center;margin-bottom:10px;padding-bottom:8px;border-bottom:3px solid #5B21B6">
-  <div style="font-size:28px;font-weight:900;color:#5B21B6;margin-bottom:8px;letter-spacing:-.5px">청개구리 사전점검 리포트 <span style="background:#E74C3C;color:#fff;font-size:14px;padding:2px 8px;border-radius:4px;vertical-align:middle">SPARE</span></div>
+  <div style="font-size:28px;font-weight:900;color:#5B21B6;margin-bottom:8px;letter-spacing:-.5px">청개구리 사전점검 리포트 <span style="background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-size:14px;padding:2px 8px;border-radius:999px;vertical-align:middle">FROGCHECK</span></div>
   <div style="font-size:13px;font-weight:700;color:#5A6B7F">${info}</div>
   <div style="font-size:10px;color:#94A3B8;margin-top:4px">${dateStr} 작성 | 총 ${list.length}건 | ${APP_VER}</div>
 </div>
