@@ -3176,7 +3176,9 @@ window.addEventListener('DOMContentLoaded',()=>{
   initWorkSelect();loadList();loadDraft();initDraftListeners();
   step(1);updateQuotaUI();updatePassUI();
   /* 버전 자동 반영 */
-  document.querySelectorAll('[data-ver]').forEach(el=>{el.textContent=el.textContent.replace(/v[\d.]+(-spare|-frogcheck)?/,APP_VER);});
+  /* verTag는 헤더 폭 절약을 위해 -frogcheck/-spare 접미사 제거한 짧은 버전, title은 풀 버전 */
+  const SHORT_VER=APP_VER.replace(/-(spare|frogcheck)$/,'');
+  document.querySelectorAll('[data-ver]').forEach(el=>{el.textContent=el.textContent.replace(/v[\d.]+(-spare|-frogcheck)?/,SHORT_VER);});
   document.title=document.title.replace(/v[\d.]+(-spare|-frogcheck)?/,APP_VER);
   /* 서버 헬스체크 (30초 후 비간섭적 실행) */
   setTimeout(spareFailover,30000);
