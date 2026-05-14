@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#5B21B6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#2563EB" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0B1220" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>청개구리 입주자 사전점검 AI앱 FROGCHECK v33.10-frogcheck</title>
+<title>청개구리 입주자 사전점검 AI앱 FROGCHECK v33.11-frogcheck</title>
 <script>
 /* FOUC 방지: 페인트 직전 테마 결정 — localStorage('theme') 우선, 없으면 prefers-color-scheme */
 (function(){try{
@@ -76,8 +76,8 @@
    - [UI] 하단 버튼 영역 정리, 푸터 간소화
    ============================================================ */
 :root{
-  /* v33.10-frogcheck Phase 2: soft neutral + 보라 액센트 유지 + 라이트/다크 양쪽 토큰화 */
-  --p:#5B21B6;--pl:#8B5CF6;--pg:rgba(139,92,246,.14);
+  /* v33.11-frogcheck: 청색(Blue-600) + 하늘색(Sky-400) 액센트로 전환 — 청개구리 컨셉 강화 */
+  --p:#2563EB;--pl:#38BDF8;--pg:rgba(56,189,248,.16);
   --ac:#FF6B35;
   --bg:#F4F6F9;--card:#FFFFFF;
   --page-bg:#F7F8FC;
@@ -103,7 +103,7 @@
   color-scheme:light;
 }
 :root[data-theme="dark"]{
-  --p:#A78BFA;--pl:#C4B5FD;--pg:rgba(167,139,250,.22);
+  --p:#60A5FA;--pl:#7DD3FC;--pg:rgba(125,211,252,.22);
   --ac:#FF8A5C;
   --bg:#1E293B;--card:#1B2436;
   --page-bg:#0B1220;
@@ -144,7 +144,7 @@ body{
 
 /* ── HEADER ── */
 .hd{
-  background:linear-gradient(135deg,#1E0A3E 0%,#5B21B6 35%,#8B5CF6 70%,#5B21B6 100%);
+  background:linear-gradient(135deg,#0C2540 0%,#1D4ED8 35%,#38BDF8 70%,#2563EB 100%);
   padding:0;
   position:relative;
   overflow:hidden;
@@ -504,7 +504,7 @@ body{
   background:linear-gradient(135deg,#F0FDF4,#ECFDF5);
   border:1.5px solid var(--pl);border-radius:10px;
   padding:9px 13px;margin-bottom:9px;
-  font-size:.72rem;font-weight:700;color:#5B21B6;
+  font-size:.72rem;font-weight:700;color:#2563EB;
   transition:all .3s;
 }
 .input-hint-banner.has-input{
@@ -827,9 +827,9 @@ textarea.if{
 .ai-b:active{ transform:scale(.96); }
 .ai-b.attn{ animation:aiPulseSpare 1.2s ease-in-out infinite; position:relative; z-index:2; }
 @keyframes aiPulseSpare{
-  0%{transform:scale(1);box-shadow:0 0 0 0 rgba(91,33,182,.55),0 2px 8px rgba(91,33,182,.3)}
-  50%{transform:scale(1.12);box-shadow:0 0 0 8px rgba(91,33,182,0),0 4px 14px rgba(91,33,182,.5)}
-  100%{transform:scale(1);box-shadow:0 0 0 0 rgba(91,33,182,0),0 2px 8px rgba(91,33,182,.3)}
+  0%{transform:scale(1);box-shadow:0 0 0 0 rgba(37,99,235,.55),0 2px 8px rgba(37,99,235,.3)}
+  50%{transform:scale(1.12);box-shadow:0 0 0 8px rgba(37,99,235,0),0 4px 14px rgba(37,99,235,.5)}
+  100%{transform:scale(1);box-shadow:0 0 0 0 rgba(37,99,235,0),0 2px 8px rgba(37,99,235,.3)}
 }
 .btn-reanalyze{
   display:inline-flex;align-items:center;gap:3px;
@@ -1479,7 +1479,7 @@ textarea.if{
   padding-bottom:var(--safe-bottom);
 }
 .cb-hd{
-  background:linear-gradient(135deg,#5B21B6,#8B5CF6);
+  background:linear-gradient(135deg,#2563EB,#38BDF8);
   padding:14px 16px 12px;
   display:flex;
   align-items:center;
@@ -1766,7 +1766,7 @@ textarea.if{
   bottom:calc(90px + var(--safe-bottom));
   left:50%;
   transform:translateX(-50%) translateY(20px);
-  background:linear-gradient(135deg,#5B21B6,#8B5CF6);
+  background:linear-gradient(135deg,#2563EB,#38BDF8);
   color:#fff;
   padding:11px 20px;
   border-radius:30px;
@@ -1848,7 +1848,7 @@ html,body{background:var(--page-bg);transition:background-color .3s var(--ease-o
 
 /* 다크모드 헤더 그라데이션 톤 다운 */
 :root[data-theme="dark"] .hd{
-  background:linear-gradient(135deg,#1E1B4B 0%,#3B0764 35%,#4C1D95 70%,#1E1B4B 100%);
+  background:linear-gradient(135deg,#0B1E33 0%,#0C2A4E 35%,#1E40AF 70%,#0B1E33 100%);
 }
 
 /* ── Bento 카드 강화 (.sec) ── */
@@ -1879,7 +1879,7 @@ html,body{background:var(--page-bg);transition:background-color .3s var(--ease-o
 .sec-t .n{
   width:22px;height:22px;border-radius:8px;font-size:.66rem;
   background:linear-gradient(135deg,var(--p),var(--pl));
-  box-shadow:0 4px 12px rgba(91,33,182,.28);
+  box-shadow:0 4px 12px rgba(37,99,235,.28);
 }
 
 /* 리스트 카드 영역도 같은 톤으로 */
@@ -1994,8 +1994,8 @@ button:not(:disabled):active{transition:transform .08s ease}
 <body>
 <!-- v31.5-spare: JS 미지원/파싱 실패 시 메인앱 복귀 링크 -->
 <noscript>
-  <div style="padding:32px 20px;text-align:center;font-family:-apple-system,'Pretendard Variable','Pretendard','Noto Sans KR',sans-serif;max-width:500px;margin:40px auto;background:#fff;border:2px solid #5B21B6;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.1)">
-    <h1 style="color:#5B21B6;margin:0 0 12px">🐸 청개구리 사전점검 <span style="background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-size:12px;padding:2px 8px;border-radius:999px;vertical-align:middle">FROGCHECK</span></h1>
+  <div style="padding:32px 20px;text-align:center;font-family:-apple-system,'Pretendard Variable','Pretendard','Noto Sans KR',sans-serif;max-width:500px;margin:40px auto;background:#fff;border:2px solid #2563EB;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.1)">
+    <h1 style="color:#2563EB;margin:0 0 12px">청개구리 사전점검</h1>
     <p style="color:#5A6B7F;margin:0 0 20px;line-height:1.6">이 앱은 JavaScript가 필요합니다.<br>브라우저 설정에서 활성화하거나<br>아래 <b>메인 앱</b>을 이용해주세요.</p>
     <a href="https://frogsash.co.kr/inspect/" style="display:inline-block;padding:14px 32px;background:#1B6B28;color:#fff;text-decoration:none;border-radius:10px;font-weight:700;font-size:15px">✅ 메인 앱으로 이동</a>
     <p style="color:#94A3B8;margin:20px 0 0;font-size:13px">📞 문의: 010-2322-0949</p>
@@ -2217,12 +2217,12 @@ button:not(:disabled):active{transition:transform .08s ease}
     <span style="color:var(--bd)">|</span>
     <a href="#" onclick="A.modal('moPrivacy',1);return false;" style="font-size:.55rem;color:var(--ac);text-decoration:underline;font-weight:600">개인정보처리방침</a>
     <span style="color:var(--bd)">|</span>
-    <a href="#" onclick="A.modal('refund',1);return false;" style="font-size:.55rem;color:#5B21B6;text-decoration:underline;font-weight:700">💸 환불 정책</a>
+    <a href="#" onclick="A.modal('refund',1);return false;" style="font-size:.55rem;color:#2563EB;text-decoration:underline;font-weight:700">💸 환불 정책</a>
   </div>
   <div id="ftDetail" style="display:none;font-size:.5rem;margin-top:4px;color:var(--th);line-height:1.5">
     청개구리샤시 | 대표:전영웅 | 사업자:123-36-31426 | 통신판매:제2026-경기의왕-0180호<br>
     경기도 의왕시 시청로42 풍경채어바니티 108동1702호 | ✉toi9113@naver.com<br>
-    환불: 코드 미사용 시 100% / 사용 후 정당한 사유 시 가능 (<a href="#" onclick="A.modal('refund',1);return false;" style="color:#5B21B6;text-decoration:underline;font-weight:700">자세히</a>) | 보조도구이며 법적책임없음 | ⓒ2026 Cheong-gaeguri | <span data-ver>v26.3</span>
+    환불: 코드 미사용 시 100% / 사용 후 정당한 사유 시 가능 (<a href="#" onclick="A.modal('refund',1);return false;" style="color:#2563EB;text-decoration:underline;font-weight:700">자세히</a>) | 보조도구이며 법적책임없음 | ⓒ2026 Cheong-gaeguri | <span data-ver>v26.3</span>
   </div>
 </div>
 </div><!-- /app -->
@@ -2288,8 +2288,8 @@ button:not(:disabled):active{transition:transform .08s ease}
   <div class="pay-steps"><div class="pay-step-num">2</div><div class="pay-step-content"><div class="pay-step-title">인증코드 수령</div><div class="pay-step-desc">구매 완료 후 문자 또는 카카오톡으로 6자리 인증코드 발송 (5분 이내)</div></div></div>
   <div class="pay-steps"><div class="pay-step-num">3</div><div class="pay-step-content"><div class="pay-step-title">코드 입력 → 잠금 해제</div><div class="pay-step-desc">아래 코드 입력란에 입력하면 당일 자정까지 무제한 이용</div></div></div>
   <label style="display:flex;align-items:flex-start;gap:8px;font-size:.72rem;color:var(--ts);background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;margin-bottom:10px;line-height:1.5;cursor:pointer">
-    <input type="checkbox" id="payAgree" onchange="A.togglePayBtn()" style="flex-shrink:0;margin-top:2px;width:16px;height:16px;cursor:pointer;accent-color:#5B21B6">
-    <span><b>환불 규정·법적 책임 동의</b> (필수)<br><span style="color:var(--th);font-size:.66rem">코드 미사용 시 100% 환불 / 사용 후에는 <b>정당한 사유</b>(시스템 오류·반복적 분석 부정확 등) 발생 시 환불 가능 / 본 분석은 참고용이며 법적 효력 없음에 동의합니다. (<a href="#" onclick="event.preventDefault();event.stopPropagation();A.modal('refund',1)" style="color:#5B21B6;text-decoration:underline;font-weight:700">환불 정책 자세히 보기</a>)</span></span>
+    <input type="checkbox" id="payAgree" onchange="A.togglePayBtn()" style="flex-shrink:0;margin-top:2px;width:16px;height:16px;cursor:pointer;accent-color:#2563EB">
+    <span><b>환불 규정·법적 책임 동의</b> (필수)<br><span style="color:var(--th);font-size:.66rem">코드 미사용 시 100% 환불 / 사용 후에는 <b>정당한 사유</b>(시스템 오류·반복적 분석 부정확 등) 발생 시 환불 가능 / 본 분석은 참고용이며 법적 효력 없음에 동의합니다. (<a href="#" onclick="event.preventDefault();event.stopPropagation();A.modal('refund',1)" style="color:#2563EB;text-decoration:underline;font-weight:700">환불 정책 자세히 보기</a>)</span></span>
   </label>
   <button class="btn-nv" id="btnNvPay" disabled style="margin-bottom:14px;opacity:.5;cursor:not-allowed" onclick="window.open('https://smartstore.naver.com/cheong-gaeguri/products/13332726774','_blank');A.showCodeInput()">
     <i class="fa-brands fa-naver"></i> 네이버페이로 구매하기
@@ -2303,7 +2303,7 @@ button:not(:disabled):active{transition:transform .08s ease}
     <div class="code-msg" id="codeMsg"></div>
   </div>
   <div style="font-size:.68rem;color:var(--th);text-align:center;margin-top:10px;line-height:1.6">코드 미수신 시 📞 010-2322-0949 문자 문의<br>인증코드는 1회 사용 후 당일 자정 만료</div>
-  <div style="font-size:.65rem;color:#ef4444;text-align:center;margin-top:6px;line-height:1.5;background:#fef2f2;border-radius:8px;padding:6px 10px"><i class="fa-solid fa-triangle-exclamation"></i> <b>환불 안내:</b> 코드 미사용 시 100% 환불 / 사용 후에는 <b>정당한 사유</b>가 발생한 경우에 한하여 환불 가능. (<a href="#" onclick="event.preventDefault();A.modal('refund',1)" style="color:#5B21B6;text-decoration:underline;font-weight:700">자세히 보기</a>)</div>
+  <div style="font-size:.65rem;color:#ef4444;text-align:center;margin-top:6px;line-height:1.5;background:#fef2f2;border-radius:8px;padding:6px 10px"><i class="fa-solid fa-triangle-exclamation"></i> <b>환불 안내:</b> 코드 미사용 시 100% 환불 / 사용 후에는 <b>정당한 사유</b>가 발생한 경우에 한하여 환불 가능. (<a href="#" onclick="event.preventDefault();A.modal('refund',1)" style="color:#2563EB;text-decoration:underline;font-weight:700">자세히 보기</a>)</div>
   <div style="font-size:.64rem;color:#065f46;text-align:center;margin-top:4px;line-height:1.5;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:6px 10px"><i class="fa-solid fa-shield-halved"></i> <b>분석 실패 보호:</b> AI가 빈 응답·오류를 내면 <b>쿼터 차감 없이 자동 롤백</b>됩니다. 결과가 이상하면 <b>"수정 후 재분석"</b> 버튼으로 <b>최대 3회 무료 재시도</b>가 가능합니다.<br>① 지속 실패·결과 불만족 시 <a href="https://frogsash.co.kr/inspect/" target="_blank" style="color:#1B6B28;font-weight:800;text-decoration:underline">메인앱</a>에 <b>같은 인증코드</b> 입력 → 다른 AI 엔진으로 <b>무료 100회 추가 분석</b><br>② 그래도 불만족 시 <a href="https://smartstore.naver.com/cheong-gaeguri" target="_blank" style="color:#03C75A;font-weight:800;text-decoration:underline">네이버 스마트스토어</a>에서 <b>직접 환불 신청</b> (코드 미사용 시 100% 환불 / 사용 후에는 <b>정당한 사유</b>가 발생한 경우에 한하여 환불 가능)</div>
   <button class="mo-cls" onclick="A.modal('payGuide',0)">닫기</button>
 </div>
@@ -2313,7 +2313,7 @@ button:not(:disabled):active{transition:transform .08s ease}
 <div class="mo" id="moRefund">
 <div class="mo-b">
   <div class="mo-drag"></div>
-  <div class="mo-h" style="color:#5B21B6">💸 환불 정책</div>
+  <div class="mo-h" style="color:#2563EB">💸 환불 정책</div>
   <p style="font-size:.78rem;color:var(--ts);line-height:1.6;margin-bottom:10px">청개구리 AI 사전점검 SPARE 앱(1일 이용권 ₩10,000)의 환불 정책을 안내드립니다. 메인앱·SPARE 앱은 <b>같은 이용권을 공유</b>합니다.</p>
 
   <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:10px 12px;margin-bottom:10px">
@@ -2390,7 +2390,7 @@ button:not(:disabled):active{transition:transform .08s ease}
     <button class="cb-hd-close" onclick="A.closeChatBot()"><i class="fa-solid fa-xmark"></i></button>
   </div>
   <div style="padding:8px 14px 0;display:flex;justify-content:center">
-    <button onclick="A.closeChatBot();setTimeout(()=>A.modal('refund',1),200)" style="background:linear-gradient(135deg,#5B21B6,#7C3AED);color:#fff;border:none;border-radius:10px;padding:8px 16px;font-size:.74rem;font-weight:800;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(91,33,182,.25)"><i class="fa-solid fa-scale-balanced"></i> 환불 정책 자세히 보기</button>
+    <button onclick="A.closeChatBot();setTimeout(()=>A.modal('refund',1),200)" style="background:linear-gradient(135deg,#2563EB,#7C3AED);color:#fff;border:none;border-radius:10px;padding:8px 16px;font-size:.74rem;font-weight:800;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(37,99,235,.25)"><i class="fa-solid fa-scale-balanced"></i> 환불 정책 자세히 보기</button>
   </div>
   <div class="cb-tabs" id="cbTabs">
     <button class="cb-tab on" onclick="A.cbTab(this,'use')">📱 앱 사용법</button>
@@ -2444,7 +2444,7 @@ button:not(:disabled):active{transition:transform .08s ease}
 /* ============================================================
    ★ 설정값
    ============================================================ */
-const APP_VER = 'v33.10-frogcheck';
+const APP_VER = 'v33.11-frogcheck';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbxXiy2tR6pRHpnqsR1TY6a0gFQiVuZMYvtzFJGOQubJ-ENCA9u8t4tvtUEB_-NNbVDd9Q/exec';
 const SPARE_URL = 'https://anhjjeon1.github.io/inspect-spare/';
 const LIMIT_FREE = 2;
@@ -3284,7 +3284,7 @@ function _normalizeRoomText(text){if(!text)return'';const t=text.replace(/\s+/g,
 A.toggleRoom=()=>{const grid=$('cdGrid'),btn=$('cdBtn');btn.classList.remove('err-shake');const isOpen=grid.classList.contains('show');if(isOpen){grid.classList.remove('show');btn.classList.remove('open');}else{grid.classList.add('show');btn.classList.add('open');}};
 A.pickRoom=(el)=>{const val=el.dataset.val;_setRoomValue(val);const label=$('cdLabel');label.textContent='✔ '+val;label.classList.remove('cd-placeholder');label.style.color='var(--p)';label.style.fontWeight='800';$('cdBtn').classList.remove('err-shake');document.querySelectorAll('.cd-item').forEach(i=>i.classList.remove('selected'));el.classList.add('selected');setTimeout(()=>{$('cdGrid').classList.remove('show');$('cdBtn').classList.remove('open');},150);const warn=$('roomWarnMsg');if(warn)warn.style.display='none';saveDraft();};
 function validateRoom(){if(!$('fRoom').value){showRoomWarn();const btn=$('cdBtn');btn.classList.remove('err-shake');void btn.offsetWidth;btn.classList.add('err-shake');$('cdGrid').classList.add('show');btn.classList.add('open');stat('⚠️ 점검 위치를 선택해주세요',true);btn.scrollIntoView({behavior:'smooth',block:'center'});return false;}return true;}
-function showRoomWarn(){let warn=$('roomWarnMsg');if(!warn){warn=document.createElement('div');warn.id='roomWarnMsg';warn.style.cssText='background:#FFF5F5;border:1.5px solid var(--dn);border-radius:10px;padding:10px 14px;font-size:.78rem;font-weight:700;color:var(--dn);display:flex;align-items:center;gap:8px;margin-top:8px;animation:shake .4s';warn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> ① 위 <b style="color:#5B21B6">점검 위치</b>를 먼저 선택한 후 저장하세요!';const btnSv=$('btnSv');btnSv.parentNode.insertBefore(warn,btnSv);}warn.style.display='flex';clearTimeout(warn._t);warn._t=setTimeout(()=>{if(warn)warn.style.display='none';},4000);}
+function showRoomWarn(){let warn=$('roomWarnMsg');if(!warn){warn=document.createElement('div');warn.id='roomWarnMsg';warn.style.cssText='background:#FFF5F5;border:1.5px solid var(--dn);border-radius:10px;padding:10px 14px;font-size:.78rem;font-weight:700;color:var(--dn);display:flex;align-items:center;gap:8px;margin-top:8px;animation:shake .4s';warn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> ① 위 <b style="color:#2563EB">점검 위치</b>를 먼저 선택한 후 저장하세요!';const btnSv=$('btnSv');btnSv.parentNode.insertBefore(warn,btnSv);}warn.style.display='flex';clearTimeout(warn._t);warn._t=setTimeout(()=>{if(warn)warn.style.display='none';},4000);}
 
 /* ── 전문가(직원) 모드 ── */
 A.setMode=m=>{if(m==='admin'){$('moPwd').classList.add('show');$('pwdInput').value='';$('pwdErr').style.display='none';setTimeout(()=>$('pwdInput').focus(),200);return;}mode='free';sessionStorage.removeItem('admin_token');updateQuotaUI();updatePassUI();};
@@ -3751,7 +3751,7 @@ A.pdf=()=>{
     /* v30.7: PDF에서는 "분석 완료 · 2차 검증 완료" 줄 제거 */
     const detailRaw=(it.detail||'').split('\n').filter(l=>!/분석\s*완료\s*·\s*2차\s*검증\s*완료/.test(l)).join('\n').replace(/\n{2,}/g,'\n').trim();
     const room=esc(it.room||'위치미지정'),type=esc(it.type||''),work=esc(it.work||''),sub=esc(it.sub||''),detail=esc(detailRaw);
-    const mTag=it.mode==='paid'?'<span style="font-size:9px;background:#03C75A;color:#fff;padding:2px 6px;border-radius:3px">이용권</span>':it.mode==='pro'?'<span style="font-size:9px;background:#7C3AED;color:#fff;padding:2px 6px;border-radius:3px">직원</span>':'<span style="font-size:9px;background:#F3EFFF;color:#5B21B6;padding:2px 6px;border-radius:3px">무료</span>';
+    const mTag=it.mode==='paid'?'<span style="font-size:9px;background:#03C75A;color:#fff;padding:2px 6px;border-radius:3px">이용권</span>':it.mode==='pro'?'<span style="font-size:9px;background:#7C3AED;color:#fff;padding:2px 6px;border-radius:3px">직원</span>':'<span style="font-size:9px;background:#F3EFFF;color:#2563EB;padding:2px 6px;border-radius:3px">무료</span>';
     const hasW=it.wImg&&it.wImg.startsWith('data:'),hasC=it.cImg&&it.cImg.startsWith('data:');
     let imgHtml='';
     if(hasW||hasC){
@@ -3762,14 +3762,14 @@ A.pdf=()=>{
     }
     items+=`<div class="pdf-item" style="border:1px solid #ddd;border-radius:8px;overflow:hidden;margin-bottom:6px;break-inside:avoid;page-break-inside:avoid">
       <div style="padding:6px 12px;background:#F4F6F9;border-bottom:1px solid #eee;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-        <span style="display:inline-block;font-size:10px;font-weight:900;background:#5B21B6;color:#fff;width:20px;height:20px;border-radius:4px;text-align:center;line-height:20px">${idx+1}</span>
+        <span style="display:inline-block;font-size:10px;font-weight:900;background:#2563EB;color:#fff;width:20px;height:20px;border-radius:4px;text-align:center;line-height:20px">${idx+1}</span>
         <b style="font-size:14px">${room}</b>
         <span style="font-size:11px;font-weight:700;color:${tc};background:${tb};padding:2px 7px;border-radius:3px">${type}</span>
         ${mTag}
       </div>
       ${imgHtml}
       <div style="padding:8px 12px">
-        <div style="font-size:12px;font-weight:700;color:#5B21B6;margin-bottom:4px">${work} → ${sub}</div>
+        <div style="font-size:12px;font-weight:700;color:#2563EB;margin-bottom:4px">${work} → ${sub}</div>
         <div style="font-size:12px;color:#3A4B5F;line-height:1.6;white-space:pre-wrap">${detail}</div>
       </div>
     </div>`;
@@ -3781,8 +3781,8 @@ A.pdf=()=>{
 img{max-width:100%;display:block}
 @media print{@page{size:A4;margin:8mm}body{padding:0}.pdf-item{break-inside:avoid;page-break-inside:avoid}}</style></head>
 <body>
-<div style="text-align:center;margin-bottom:10px;padding-bottom:8px;border-bottom:3px solid #5B21B6">
-  <div style="font-size:28px;font-weight:900;color:#5B21B6;margin-bottom:8px;letter-spacing:-.5px">청개구리 사전점검 리포트 <span style="background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-size:14px;padding:2px 8px;border-radius:999px;vertical-align:middle">FROGCHECK</span></div>
+<div style="text-align:center;margin-bottom:10px;padding-bottom:8px;border-bottom:3px solid #2563EB">
+  <div style="font-size:28px;font-weight:900;color:#2563EB;margin-bottom:8px;letter-spacing:-.5px">청개구리 사전점검 리포트</div>
   <div style="font-size:13px;font-weight:700;color:#5A6B7F">${info}</div>
   <div style="font-size:10px;color:#94A3B8;margin-top:4px">${dateStr} 작성 | 총 ${list.length}건 | ${APP_VER}</div>
 </div>
