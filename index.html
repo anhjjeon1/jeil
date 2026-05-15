@@ -2447,9 +2447,9 @@ const LIMIT_PAID = 100;
 
 let list=[], wF=null, cF=null, devN=0, devT;
 
-/* ── nonce 헬퍼 (AI 호출 전 30초 1회용 토큰) ── 보안 강화 */
+/* ── nonce 헬퍼 (AI 호출 전 30초 1회용 토큰) ── 보안 강화
+   admin_token 유무와 무관하게 항상 nonce 발급 (admin verify 실패해도 자동 폴백) */
 async function _getNonce(){
-  if(sessionStorage.getItem('admin_token'))return '';
   try{
     const ctrl=new AbortController();
     const tid=setTimeout(()=>ctrl.abort(),8000);
