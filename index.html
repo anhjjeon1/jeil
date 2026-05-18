@@ -2440,7 +2440,7 @@ button:not(:disabled):active{transition:transform .08s ease}
 /* ============================================================
    ★ 설정값
    ============================================================ */
-const APP_VER = 'v34.1-frogcheck';
+const APP_VER = 'v34.6-frogcheck';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbxXiy2tR6pRHpnqsR1TY6a0gFQiVuZMYvtzFJGOQubJ-ENCA9u8t4tvtUEB_-NNbVDd9Q/exec';
 const SPARE_URL = 'https://anhjjeon1.github.io/inspect-spare/';
 const LIMIT_FREE = 2;
@@ -3770,8 +3770,9 @@ A.edit=id=>{const idx=list.findIndex(i=>i.id===id);if(idx===-1)return;if(!confir
 A.del=id=>{if(!confirm('삭제하시겠습니까?'))return;$(`i-${id}`).remove();list=list.filter(i=>i.id!==id);$('lCnt').textContent=list.length;updateModeLabel();saveList(true);};
 A.clearAll=()=>{if(!list.length)return;if(!confirm(`${list.length}건 전체 삭제하시겠습니까?`))return;list=[];$('lBox').innerHTML='';$('lCnt').textContent=0;updateModeLabel();saveList(true);};
 
-/* ── v34.1-frogcheck: 전체 저장 — Web Share API 지원 환경에서 PDF 1탭 공유, 미지원 시 기존 인쇄 흐름 fallback ── */
-A.pdf=async()=>{
+/* ── v34.6-frogcheck: 전체 저장 — 메인앱 v34.6과 동일 흐름 (window.open + print) ── */
+/* v34.1 html2pdf+Web Share 흐름은 Samsung Internet 호환 문제로 메인앱과 함께 폐기 */
+A.pdf=()=>{
   if(!list.length){alert('저장할 내용이 없습니다.');return;}
   const now=new Date();
   const ymd=`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
@@ -3812,7 +3813,12 @@ A.pdf=async()=>{
     </div>`;
   });
 
-  const bodyHtml=`
+  const html=`<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>사전점검 리포트 - ${info}</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;background:#fff;color:#1A2332;padding:8px;max-width:800px;margin:0 auto;line-height:1.5}
+img{max-width:100%;display:block}
+@media print{@page{size:A4;margin:8mm}body{padding:0}.pdf-item{break-inside:avoid;page-break-inside:avoid}}</style></head>
+<body>
 <div style="text-align:center;margin-bottom:10px;padding-bottom:8px;border-bottom:3px solid #1E3A8A">
   <div style="font-size:28px;font-weight:900;color:#1E3A8A;margin-bottom:8px;letter-spacing:-.5px">청개구리 사전점검 리포트</div>
   <div style="font-size:13px;font-weight:700;color:#5A6B7F">${info}</div>
@@ -3821,60 +3827,22 @@ A.pdf=async()=>{
 ${items}
 <div style="text-align:center;font-size:9px;color:#94A3B8;margin-top:4px;padding-top:4px;border-top:1px solid #E8ECF1;line-height:1.5">
   ※ 본 리포트는 입주자 사전점검 보조 자료이며 법적 효력이 없습니다.
-</div>`;
+</div>
+</body></html>`;
 
-  const html=`<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>사전점검 리포트 - ${info}</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;background:#fff;color:#1A2332;padding:8px;max-width:800px;margin:0 auto;line-height:1.5}
-img{max-width:100%;display:block}
-@media print{@page{size:A4;margin:8mm}body{padding:0}.pdf-item{break-inside:avoid;page-break-inside:avoid}}</style></head>
-<body>${bodyHtml}</body></html>`;
-
-  const canShare=(()=>{
-    if(!navigator.share||!navigator.canShare||!window.html2pdf) return false;
-    try{return navigator.canShare({files:[new File([new Blob(['x'])],'t.pdf',{type:'application/pdf'})]});}catch(_){return false;}
-  })();
-
-  if(canShare){
-    const wrap=document.createElement('div');
-    wrap.style.cssText='position:absolute;left:-9999px;top:0;width:794px;background:#fff;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;color:#1A2332;padding:8px;line-height:1.5';
-    wrap.innerHTML=bodyHtml;
-    document.body.appendChild(wrap);
-    stat('📄 PDF 생성 중…');
-    try{
-      const blob=await window.html2pdf().set({margin:8,filename:pdfName+'.pdf',image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,backgroundColor:'#fff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(wrap).output('blob');
-      const file=new File([blob],pdfName+'.pdf',{type:'application/pdf'});
-      try{
-        await navigator.share({files:[file],title:'청개구리 사전점검 리포트',text:`${addr||'사전점검'} 결과`});
-        stat('✅ 공유 완료');
-        toast('<i class="fa-solid fa-share-nodes"></i> PDF 공유 완료',false,2500);
-      }catch(e){
-        if(e.name!=='AbortError'){stat('⚠️ 공유 실패 — 인쇄 흐름으로 전환',true);_pdfFallbackPrint(html,pdfName);}
-        else stat('공유 취소됨');
-      }
-    }catch(e){
-      console.error('html2pdf 오류',e);
-      stat('⚠️ PDF 생성 실패 — 인쇄 흐름으로 전환',true);
-      _pdfFallbackPrint(html,pdfName);
-    }finally{document.body.removeChild(wrap);}
-    return;
-  }
-
-  _pdfFallbackPrint(html,pdfName);
-};
-
-function _pdfFallbackPrint(html,pdfName){
+  /* PDF 저장: 새 창에서 window.print() → "PDF로 저장" (v34.0 옛 흐름) */
   const win=window.open('','_blank');
   if(!win){alert('팝업이 차단되었습니다. 팝업 허용 후 다시 시도해주세요.');return;}
   win.document.write(html);
   win.document.close();
   win.document.title=pdfName;
+  /* 이미지 로드 대기 후 인쇄 */
   const imgs=win.document.querySelectorAll('img');
   let loaded=0;const total=imgs.length;
-  const doPrint=()=>{setTimeout(()=>{win.focus();win.print();},300);stat('✅ PDF 저장 대화상자가 열렸습니다');toast('📥 <b>"PDF로 저장"</b>을 선택하세요',false,4000);};
+  const doPrint=()=>{setTimeout(()=>{win.focus();win.print();},300);stat(`✅ PDF 저장 대화상자가 열렸습니다`);toast(`📥 <b>"PDF로 저장"</b>을 선택하세요`,false,4000);};
   if(total===0){doPrint();}
   else{imgs.forEach(img=>{if(img.complete){loaded++;if(loaded>=total)doPrint();}else{img.onload=img.onerror=()=>{loaded++;if(loaded>=total)doPrint();};}});}
-}
+};
 
 /* ── 모달 ── */
 A.modal=(n,s)=>{let el;if(n==='payGuide')el=$('moPayGuide');else if(n==='refund')el=$('moRefund');else if(n==='moPrivacy')el=$('moPrivacy');else return;el.classList.toggle('show',!!s);};
